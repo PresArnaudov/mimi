@@ -23,7 +23,7 @@ function makeForm(par){
   form.setAttribute('action',"index.html");
   while (up<=par) {
     i = document.createElement("input"); //input element, text
-    i.setAttribute('type',"text");
+    i.setAttribute('type',"number");
     i.setAttribute('id',"comand"+up);
     form.appendChild(i);
     up++;
@@ -33,7 +33,7 @@ function makeForm(par){
   s.setAttribute('value',"Submit");
   s.setAttribute('onclick',"getComand(event)");
   form.appendChild(s);
-  document.getElementsByTagName('body')[0].appendChild(form);
+  document.getElementsByTagName('div')[0].appendChild(form);
 }
 
 
@@ -56,34 +56,44 @@ function makeFormLast(c){
     var s = document.createElement("input"); //input element, Submit button
     s.setAttribute('type',"submit");
     s.setAttribute('value',"Submit");
-    s.setAttribute('onclick',"getValue(event)");
+    s.setAttribute('onclick',"getValue(event,this)");
     form.appendChild(s);
-  document.getElementsByTagName('body')[0].appendChild(form);
+  document.getElementsByTagName('div')[0].appendChild(form);
 }
 
 // take comands
 
 
+var allC=0;
 function getComand(event){
   event.preventDefault();
   var up=1
-
 while (up<=n) {
  c=document.getElementById('comand'+up).value;
    up++;
-   makeFormLast(c);
+    allC=allC+Number(c);
+    // console.log(allC);
+  //  makeFormLast(c);
 }
-console.log(c);
+makeFormLast(allC);
+// var allV;
+// var br=allC.split('');
+// for (let value of br) {
+//   allV+value;
+// }
+// console.log(allV);
+// console.log(c);
 }
 
 //take arry values
 
 
-function getValue(event) {
+function getValue(event,_btn) {
     event.preventDefault();
+     var formEl = _btn.parentElement.parentElement.querySelector("form");
     var arr=[];
     var up=1;
-    while (up<=c) {
+    while (up<=allC) {
       var someRand= (document.getElementById('valueForArray'+up).value);
     var nSR=  someRand.split(' ');
     // console.log(nSR);
@@ -108,16 +118,20 @@ function safe(param) {
   //   console.log("off parameters");
   // }
   for (var iArr = 0; iArr < len; iArr++) {
-    if (param[iArr]==2) {
-      console.log(Math.max(...helper));
-    }
-  //  console.log(param[iArr]);
+    //  console.log(param[iArr]);
     for (var jArr = 0; jArr < len; jArr++) {
       // console.log(param[iArr][jArr]);
-    if (param[iArr][jArr-1]==1) {
-      // console.log(param[iArr][jArr]);
-     helper.push(param[iArr][jArr]);
+      if (param[iArr][jArr-1]==1) {
+        // console.log(param[iArr][jArr]);
+        helper.push(param[iArr][jArr]);
+      }
     }
+    if (param[iArr]==2) {
+      console.log(Math.max(...helper));
+      var rem=helper.indexOf(Math.max(...helper));
+      if (rem > -1) {
+        helper.splice(rem, 1);
+      }
     }
   }
   console.log(helper);
